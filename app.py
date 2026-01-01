@@ -3,6 +3,7 @@ import json
 import os
 import pandas as pd
 from datetime import datetime
+from io import BytesIO
 
 app = Flask(__name__)
 app.secret_key = "foe_secret_key"
@@ -73,7 +74,6 @@ def save_data(data):
     with open(DATA_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=4, ensure_ascii=False)
 
-
 # =========================
 # LOGIN
 # =========================
@@ -97,7 +97,6 @@ def login():
 def logout():
     session.clear()
     return redirect("/login")
-
 
 # =========================
 # INPUT DATA (PRE-FILL)
@@ -144,7 +143,6 @@ def input_data():
         selected_airport=selected_airport
     )
 
-
 # =========================
 # CHECK DATA
 # =========================
@@ -162,6 +160,7 @@ def check_data():
         airports = [a.strip().upper() for a in request.form["airports"].split(",")]
         filters = request.form.getlist("filters")
 
+        # không chọn filter → hiển thị tất cả
         if not filters:
             filters = []
             for group in FIELDS.values():
@@ -178,9 +177,8 @@ def check_data():
 
     return render_template("check.html", data=result, fields=FIELDS)
 
-
 # =========================
-# EXPORT EXCEL
+# EXPORT EXCEL (SAFE)
 # =========================
 
 @app.route("/export", methods=["POST"])
@@ -191,6 +189,7 @@ def export_excel():
 
     raw_data = load_data()
     airports = session.get("last_check_airports", [])
+
     rows = []
 
     for a in airports:
@@ -209,11 +208,18 @@ def export_excel():
 
     df = pd.DataFrame(rows)
 
+    output = BytesIO()
+    df.to_excel(output, index=False)
+    output.seek(0)
+
     filename = f"Airport_Check_Report_{datetime.now().strftime('%Y%m%d_%H%M')}.xlsx"
-    df.to_excel(filename, index=False)
 
-    return send_file(filename, as_attachment=True)
-
+    return send_file(
+        output,
+        as_attachment=True,
+        download_name=filename,
+        mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
 
 # =========================
 
