@@ -81,7 +81,7 @@ def save_data(data):
 # BACKUP TO GITHUB  (NEW)
 # =========================
 
-GITHUB_REPO = "USERNAME/airport_data_backup"   # <-- đổi USERNAME
+GITHUB_REPO = "tuananhhust2302/airport_data_backup"   # <-- đổi USERNAME
 
 BACKUP_FILE = "backup.json"
 
