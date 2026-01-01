@@ -4,6 +4,7 @@ import os
 import pandas as pd
 from datetime import datetime
 from io import BytesIO
+import requests   # <-- NEW
 
 app = Flask(__name__)
 app.secret_key = "foe_secret_key"
@@ -70,9 +71,55 @@ def load_data():
     with open(DATA_FILE, "r", encoding="utf-8") as f:
         return json.load(f)
 
+
 def save_data(data):
     with open(DATA_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=4, ensure_ascii=False)
+
+
+# =========================
+# BACKUP TO GITHUB  (NEW)
+# =========================
+
+GITHUB_REPO = "USERNAME/airport_data_backup"   # <-- đổi USERNAME
+
+BACKUP_FILE = "backup.json"
+
+
+def backup_to_github(data_dict):
+    import base64
+    token = os.getenv("GITHUB_TOKEN")
+
+    if not token:
+        print("⚠ No GitHub token → skip backup")
+        return
+
+    url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{BACKUP_FILE}"
+
+    content = base64.b64encode(
+        json.dumps(data_dict, indent=4, ensure_ascii=False).encode("utf-8")
+    ).decode("utf-8")
+
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/vnd.github+json"
+    }
+
+    res = requests.get(url, headers=headers)
+
+    payload = {
+        "message": "auto backup",
+        "content": content,
+        "branch": "main"
+    }
+
+    if res.status_code == 200:
+        payload["sha"] = res.json()["sha"]
+
+    r = requests.put(url, json=payload, headers=headers)
+
+    print("Backup status:", r.status_code)
+
 
 # =========================
 # LOGIN
@@ -93,10 +140,12 @@ def login():
     </form>
     """
 
+
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect("/login")
+
 
 # =========================
 # INPUT DATA (PRE-FILL)
@@ -113,11 +162,9 @@ def input_data():
     selected_airport = request.args.get("airport", "").upper()
     loaded = {}
 
-    # load nếu đã có dữ liệu
     if selected_airport and selected_airport in data:
         loaded = data[selected_airport]
 
-    # SAVE
     if request.method == "POST":
         airport = request.form["airport"].upper()
         data[airport] = {}
@@ -132,6 +179,10 @@ def input_data():
                     data[airport][i] = [tick, note]
 
         save_data(data)
+
+        # 🔥 BACKUP HERE
+        backup_to_github(data)
+
         loaded = data[airport]
         selected_airport = airport
 
@@ -143,8 +194,9 @@ def input_data():
         selected_airport=selected_airport
     )
 
+
 # =========================
-# CHECK DATA
+# CHECK
 # =========================
 
 @app.route("/check", methods=["GET", "POST"])
@@ -160,7 +212,6 @@ def check_data():
         airports = [a.strip().upper() for a in request.form["airports"].split(",")]
         filters = request.form.getlist("filters")
 
-        # không chọn filter → hiển thị tất cả
         if not filters:
             filters = []
             for group in FIELDS.values():
@@ -177,8 +228,9 @@ def check_data():
 
     return render_template("check.html", data=result, fields=FIELDS)
 
+
 # =========================
-# EXPORT EXCEL (SAFE)
+# EXPORT EXCEL
 # =========================
 
 @app.route("/export", methods=["POST"])
@@ -220,6 +272,7 @@ def export_excel():
         download_name=filename,
         mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
+
 
 # =========================
 
