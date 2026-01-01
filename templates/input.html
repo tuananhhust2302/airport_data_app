@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>INPUT AIRPORT DATA</title>
+</head>
+<body>
+
+<h2>INPUT AIRPORT DATA</h2>
+
+<form method="get">
+    <b>Airport ICAO:</b><br>
+    <input name="airport" value="{{ selected_airport }}" placeholder="VVNB">
+    <button type="submit">Enter</button>
+</form>
+
+{% if selected_airport %}
+<p><b>Selected:</b> {{ selected_airport }}</p>
+{% endif %}
+
+<hr>
+
+<form method="post">
+
+<input type="hidden" name="airport" value="{{ selected_airport }}">
+
+{% for group, items in fields.items() %}
+
+<h3>{{ group }}</h3>
+
+<ul>
+
+{% for f in items %}
+
+{% if group == "AIRPORT_INFORMATION" %}
+
+<li>
+    {{ f }} :
+    <input type="text" name="{{ f }}" value="{{ loaded.get(f, '') }}">
+</li>
+
+{% else %}
+
+<li>
+    <input type="checkbox" name="{{ f }}"
+        {% if loaded.get(f, [0])[0] == 1 %}checked{% endif %}>
+    {{ f }}
+    <br>
+    Note:
+    <input type="text" name="{{ f }}_note"
+           value="{{ loaded.get(f, ['', ''])[1] }}">
+</li>
+
+{% endif %}
+
+{% endfor %}
+
+</ul>
+<hr>
+
+{% endfor %}
+
+<button type="submit">SAVE</button>
+
+</form>
+
+<br>
+<a href="/check">Go to CHECK DATA</a>
+
+</body>
+</html>

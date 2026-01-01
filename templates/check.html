@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Check Airport Data</title>
+</head>
+<body>
+
+<div style="margin-bottom:15px;">
+    ⬅ <a href="/" style="font-weight:bold;">
+        Back to INPUT DATA
+    </a>
+</div>
+<hr>
+
+<h2>CHECK AIRPORT DATA</h2>
+
+<form method="post">
+    <b>Airport ICAO list:</b><br>
+    <input name="airports" placeholder="VVNB, VVTS, ZLLL" size="60"><br><br>
+
+    <h3>Filter (minimum required data)</h3>
+
+    {% for group, items in fields.items() %}
+        {% if group != "AIRPORT_INFORMATION" %}
+            <b>{{ group }}</b><br>
+            {% for i in items %}
+                <input type="checkbox" name="filters" value="{{ i }}"> {{ i }}<br>
+            {% endfor %}
+            <br>
+        {% endif %}
+    {% endfor %}
+
+    <button type="submit">CHECK DATA</button>
+</form>
+
+<hr>
+
+{% for airport, content in data.items() %}
+<h3>Airport: {{ airport }}</h3>
+
+<ul>
+{% for k, v in content["CHECK"].items() %}
+    <li>
+        {{ k }} :
+        {% if v[0] == 1 %}✔{% else %}✘{% endif %}
+        {% if v[1] %} – Note: {{ v[1] }}{% endif %}
+    </li>
+{% endfor %}
+</ul>
+
+<hr>
+{% endfor %}
+
+<!-- 🔹 EXPORT EXCEL BUTTON (NEW) -->
+{% if data %}
+<form method="post" action="/export">
+    <button type="submit">
+        EXPORT REPORT (EXCEL)
+    </button>
+</form>
+{% endif %}
+
+</body>
+</html>

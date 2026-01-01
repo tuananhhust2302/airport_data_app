@@ -1,0 +1,202 @@
+{
+    "VVNB": {
+        "LIDO_mPilot": [
+            0,
+            ""
+        ],
+        "EFB2": [
+            0,
+            ""
+        ],
+        "EFB3": [
+            0,
+            ""
+        ],
+        "EOSID_CHART": [
+            0,
+            ""
+        ],
+        "EDTO_MANUAL": [
+            0,
+            ""
+        ],
+        "ROUTE_MANUAL": [
+            0,
+            ""
+        ],
+        "RTOW": [
+            0,
+            ""
+        ],
+        "VN4": [
+            0,
+            ""
+        ],
+        "VN6": [
+            0,
+            ""
+        ],
+        "VN7": [
+            0,
+            ""
+        ],
+        "VN9": [
+            0,
+            ""
+        ],
+        "HVN2": [
+            0,
+            ""
+        ],
+        "TERRAIN": [
+            0,
+            ""
+        ],
+        "EOSID_NAV": [
+            0,
+            ""
+        ],
+        "AMM_EFB2": [
+            0,
+            ""
+        ],
+        "AMM_EFB3": [
+            0,
+            ""
+        ],
+        "AMM_AVIONIC": [
+            0,
+            ""
+        ],
+        "TAKE_OFF_LVP": [
+            0,
+            ""
+        ],
+        "RNAV_SID_STAR": [
+            0,
+            ""
+        ],
+        "ILS": [
+            0,
+            ""
+        ],
+        "VOR": [
+            0,
+            ""
+        ],
+        "RNP": [
+            0,
+            ""
+        ],
+        "NDB": [
+            0,
+            ""
+        ],
+        "EOSID_PROCEDURES": [
+            0,
+            ""
+        ],
+        "AIRPORT_NAME": "",
+        "CITY_NAME": "",
+        "COUNTRY_NAME": "",
+        "RUNWAY_LENGTH": "",
+        "PCN_PCR": "",
+        "RFFS_CAT": "",
+        "FUEL": "",
+        "OPERATING_HOUR": ""
+    },
+    "VVTS": {
+        "LIDO_mPilot": [
+            1,
+            ""
+        ],
+        "EFB2": [
+            1,
+            ""
+        ],
+        "EFB3": [
+            1,
+            ""
+        ],
+        "EOSID_CHART": [
+            0,
+            ""
+        ],
+        "EDTO_DOCUMENT": [
+            0,
+            ""
+        ],
+        "ROUTE_DOCUMENT": [
+            0,
+            ""
+        ],
+        "VN4": [
+            1,
+            ""
+        ],
+        "VN6": [
+            0,
+            ""
+        ],
+        "VN7": [
+            0,
+            ""
+        ],
+        "VN9": [
+            0,
+            ""
+        ],
+        "HVN2": [
+            0,
+            ""
+        ],
+        "TERRAIN": [
+            0,
+            ""
+        ],
+        "AMM_EFB2": [
+            0,
+            ""
+        ],
+        "AMM_EFB3": [
+            0,
+            ""
+        ],
+        "AMM_AVIONIC": [
+            0,
+            ""
+        ],
+        "TAKE_OFF_LVP": [
+            0,
+            ""
+        ],
+        "RNAV_SID_STAR": [
+            0,
+            ""
+        ],
+        "ILS": [
+            0,
+            ""
+        ],
+        "VOR": [
+            0,
+            ""
+        ],
+        "RNP": [
+            0,
+            ""
+        ],
+        "NDB": [
+            0,
+            ""
+        ],
+        "AIRPORT_NAME": "",
+        "CITY_NAME": "",
+        "COUNTRY_NAME": "",
+        "RUNWAY_LENGTH": "",
+        "PCN_PCR": "",
+        "RFFS_CAT": "",
+        "FUEL": "",
+        "OPERATING_HOUR": ""
+    }
+}
